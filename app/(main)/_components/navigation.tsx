@@ -5,6 +5,7 @@ import { ChevronLeft, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
+import UserItem from "./userItem";
 
 function Navigation() {
   const pathname = usePathname();
@@ -93,7 +94,7 @@ function Navigation() {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[100]",
+          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[99]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "w-0"
         )}
@@ -108,11 +109,12 @@ function Navigation() {
         >
           <ChevronLeft className="h-6 w-6" />
         </div>
-        <div>
-          <p>Action Items</p>
-        </div>
-        <div className="mt-4">
+        <div className="flex-grow">
           <p>File Explorer</p>
+        </div>
+        <div className="mt-auto mb-4">
+          {/* Action Items */}
+          <UserItem />
         </div>
         <div
           onMouseDown={handleMouseDown}
@@ -129,14 +131,14 @@ function Navigation() {
           isMobile && "left-0 w-full"
         )}
       >
-        <nav className="bg-transparent px-3 py-2 w-full">
-          {isCollapsed && (
-            <MenuIcon
-              role="button"
-              onClick={resetWidth}
-              className="h-6 w-6 text-muted-foreground"
-            />
-          )}
+        <nav className="bg-transparent px-3 py-2 w-full cursor-default">
+          {/* {isCollapsed && ( */}
+          <MenuIcon
+            role="button"
+            onClick={resetWidth}
+            className="h-6 w-6 text-muted-foreground"
+          />
+          {/* )} */}
         </nav>
       </div>
     </>

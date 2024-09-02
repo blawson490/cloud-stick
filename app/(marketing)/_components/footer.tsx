@@ -18,7 +18,7 @@ function Footer() {
           font.className
         )}
       >
-        Cloud Stick
+        CloudStick
       </p>
       <div className="md:ml-auto w-full justify-between md:justify-end flex items-center gap-x-2 text-muted-foreground">
         <Button variant={"ghost"} size={"sm"}>

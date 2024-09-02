@@ -3,7 +3,13 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { cn } from "@/lib/utils";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import React from "react";
@@ -28,7 +34,7 @@ function Navbar() {
           font.className
         )}
       >
-        Cloud Stick
+        CloudStick
       </p>
       <div className="md:ml-auto, md:justify-end justify-between w-full flex items-center gap-x-2">
         <SignedOut>
@@ -40,16 +46,16 @@ function Navbar() {
         </SignedOut>
 
         <SignedOut>
-          <SignInButton mode="modal">
+          <SignUpButton mode="modal">
             <Button className={"text-white"} size={"sm"}>
-              Get Cloud Stick Free
+              Get CloudStick Free
             </Button>
-          </SignInButton>
+          </SignUpButton>
         </SignedOut>
 
         <SignedIn>
           <Button variant={"ghost"} size={"sm"} asChild>
-            <Link href={"/sticks"}>Enter Cloud Stick</Link>
+            <Link href={"/sticks"}>Enter CloudStick</Link>
           </Button>
         </SignedIn>
 

@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://possible-ox-17.clerk.accounts.dev",
+      domain: `https://${process.env.CLERK_HOSTNAME}`,
       applicationID: "convex",
     },
   ],
