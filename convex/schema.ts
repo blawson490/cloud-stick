@@ -36,7 +36,7 @@ export default defineSchema({
     type: v.string(),
     uploadedAt: v.number(),
     uploadedBy: v.id("users"),
-    url: v.string(),
+    fileId: v.id("_storage"),
   }).index("by_stick", ["stickId"]),
 
   accessLogs: defineTable({

@@ -2,6 +2,7 @@ import {
   internalMutation,
   mutation,
   MutationCtx,
+  query,
   QueryCtx,
 } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
@@ -67,5 +68,47 @@ export const createCloudStick = mutation({
       publicLink: undefined,
       size: args.size,
     });
+  },
+});
+
+export const getCloudSticks = query({
+  args: {
+    query: v.optional(v.string()),
+  },
+  async handler(ctx, args) {
+    const user = await getUser(ctx);
+    if (!user) {
+      throw new ConvexError("You do not have access to this stick");
+    }
+
+    let sticks = await ctx.db
+      .query("cloudSticks")
+      .withIndex("by_owner", (q) => q.eq("ownerId", user.user._id))
+      .collect();
+
+    const query = args.query;
+
+    if (query) {
+      if (query != "skip") {
+        sticks = sticks.filter((stick) =>
+          stick.name.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+    }
+    return sticks;
+  },
+});
+
+export const getCloudStickById = query({
+  args: {
+    id: v.id("cloudSticks"),
+  },
+  async handler(ctx, args) {
+    const user = await getUser(ctx);
+    if (!user) {
+      throw new ConvexError("You do not have access to this stick");
+    }
+
+    return await ctx.db.get(args.id);
   },
 });

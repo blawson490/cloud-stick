@@ -1,5 +1,7 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -20,18 +22,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
+// Form
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import StickSizeRadioGroup from "./StickSizeRadioGroup";
 import CombinedLabelSelect from "@/components/ui/combined-label-select";
-import { createCloudStick } from "@/convex/cloudsticks";
+
+// Hooks
 import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+
+//api
+import { api } from "@/convex/_generated/api";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -45,6 +50,7 @@ const formSchema = z.object({
   }),
 });
 
+// Stick Sizes
 const sizeOptions = [
   {
     name: "Small",
@@ -64,9 +70,10 @@ const sizeOptions = [
 ];
 
 export default function AddStickDialog() {
+  const { toast } = useToast();
   const createCloudStick = useMutation(api.cloudsticks.createCloudStick);
-  const [isFileDialogOpen, setIsFileDialogOpen] = useState(true);
-  // 1. Define your form.
+  const [isFileDialogOpen, setIsFileDialogOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -82,9 +89,15 @@ export default function AddStickDialog() {
       expiration: values.expiration,
       size: values.size,
     });
+
     form.reset();
 
     setIsFileDialogOpen(false);
+    toast({
+      variant: "default",
+      title: "Stick created successfully",
+      description: "Successfully created a new CloudStick",
+    });
   }
 
   return (
@@ -165,11 +178,11 @@ export default function AddStickDialog() {
             />
 
             <DialogFooter className="justify-end md:justify-between">
-              {/* <DialogClose asChild disabled={form.formState.isSubmitting}> */}
-              <Button type="button" variant="secondary">
-                Cancel
-              </Button>
-              {/* </DialogClose> */}
+              <DialogClose asChild disabled={form.formState.isSubmitting}>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
+              </DialogClose>
 
               <Button
                 type="submit"
