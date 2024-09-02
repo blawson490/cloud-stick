@@ -19,13 +19,14 @@ export default defineSchema({
     ownerId: v.id("users"),
     name: v.string(),
     createdAt: v.number(),
+    updatedAt: v.number(),
     expiresAt: v.number(),
     isInVault: v.boolean(),
     accessType: v.string(), // "email" or "link"
     accessPassword: v.optional(v.string()),
     sharedWith: v.array(v.string()), // array of email addresses
     publicLink: v.optional(v.string()),
-    size: v.string(),
+    size: v.number(),
   }).index("by_owner", ["ownerId"]),
 
   files: defineTable({
